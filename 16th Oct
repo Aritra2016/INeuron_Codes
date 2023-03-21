@@ -1,0 +1,123 @@
+01. public class Student {
+
+	// instance variables
+	private String sname;
+	private int sage;
+	private int sid;
+
+	// Constructor Injection  to set a value
+	public Student(String sname, int sage, int sid) {
+		//calling Super method
+		super(); 
+		this.sname = sname;
+		this.sage = sage;
+		this.sid = sid;
+	}
+
+	public String getSname() {
+		return sname;
+	}
+
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
+
+	public int getSage() {
+		return sage;
+	}
+
+	public void setSage(int sage) {
+		this.sage = sage;
+	}
+
+	public int getSid() {
+		return sid;
+	}
+
+	public void setSid(int sid) {
+		this.sid = sid;
+	}
+	
+  //To take toString method from Student class
+	@Override
+	public String toString() {
+		return "Student [sname=" + sname + ", sage=" + sage + ", sid=" + sid + "]";
+	}
+}
+
+//Test App
+public class TestApp {
+
+	public static void main(String[] args) {
+		
+		Student student = new Student("sachin", 50, 10);
+		System.out.println(student);
+	}
+
+}
+
+
+
+
+
+02.  public class Account {
+
+	String accNo;
+	String accName;
+	String accType;
+
+	public Account(String accNo, String accName, String accType) {
+		super();
+		this.accNo = accNo;
+		this.accName = accName;
+		this.accType = accType;
+  }
+}
+
+public class Employee {
+	private String eid;
+	private String ename;
+	private String eaddr;
+
+	// HAS-A relationship
+	Account account;
+
+	// Constructor injection
+	public Employee(String eid, String ename, String eaddr, Account account) {
+		super();
+		this.eid = eid;
+		this.ename = ename;
+		this.eaddr = eaddr;
+		this.account = account;
+	}
+
+	public void getEmployeeDetails() {
+		System.out.println("Employee Details are :: ");
+		System.out.println("EMPID   ::  " + eid);
+		System.out.println("EMPNAME ::  " + ename);
+		System.out.println("EMPADDR ::  " + eaddr);
+		System.out.println("==========================================");
+		System.out.println("ACCOUNT Details are :: ");
+		System.out.println("ACCNO   ::  " + account.accNo);
+		System.out.println("ACCNAME ::  " + account.accName);
+		System.out.println("ACCTYPE ::  " + account.accType);
+	}
+}
+
+//Test App
+public class TestingApp {
+
+	public static void main(String[] args) {
+		Account account=new Account("abcd123"," sachin","savings");
+		
+		//account object in injected to employee
+		Employee em=new Employee("India10","Sachin","MI",account);
+		em.getEmployeeDetails();
+	}
+
+}
+
+
+
+
+
