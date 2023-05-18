@@ -113,7 +113,153 @@ public class BubbleSort {
 
 }
 
+
+
 Question -04= WAP to sort an array using Merge Sort Algorithm.
+
+public class MergeSort {
+    public static void mergeSort(int[] arr) {
+        mergeSort(arr, 0, arr.length - 1);
+    }
+
+    private static void mergeSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Sort the left and right halves
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+
+            // Merge the sorted halves
+            merge(arr, left, mid, right);
+        }
+    }
+
+    private static void merge(int[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        // Create temporary arrays
+        int[] leftArr = new int[n1];
+        int[] rightArr = new int[n2];
+
+        // Copy data to temporary arrays
+        for (int i = 0; i < n1; i++) {
+            leftArr[i] = arr[left + i];
+        }
+        for (int j = 0; j < n2; j++) {
+            rightArr[j] = arr[mid + 1 + j];
+        }
+
+        // Merge the temporary arrays
+        int i = 0, j = 0;
+        int k = left;
+
+        while (i < n1 && j < n2) {
+            if (leftArr[i] <= rightArr[j]) {
+                arr[k] = leftArr[i];
+                i++;
+            } else {
+                arr[k] = rightArr[j];
+                j++;
+            }
+            k++;
+        }
+
+        // Copy the remaining elements of leftArr[], if any
+        while (i < n1) {
+            arr[k] = leftArr[i];
+            i++;
+            k++;
+        }
+
+        // Copy the remaining elements of rightArr[], if any
+        while (j < n2) {
+            arr[k] = rightArr[j];
+            j++;
+            k++;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] array = {9, 5, 1, 8, 2, 7, 3};
+        System.out.println("Original Array: " + Arrays.toString(array));
+
+        mergeSort(array);
+        System.out.println("Sorted Array: " + Arrays.toString(array));
+    }
+}
+
+
+
+
+Question-05= WAP to sort an array using Selection Sort Algorithm.
+
+public class SelectionSort {
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+
+        // One by one move the boundary of the unsorted subarray
+        for (int i = 0; i < n - 1; i++) {
+            // Find the minimum element in the unsorted array
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+
+            // Swap the found minimum element with the first element
+            swap(arr, i, minIndex);
+        }
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        int[] array = {9, 5, 1, 8, 2, 7, 3};
+        System.out.println("Original Array: " + Arrays.toString(array));
+
+        selectionSort(array);
+        System.out.println("Sorted Array: " + Arrays.toString(array));
+    }
+}
+
+
+Question-06= WAP to check whether an array is a subset of another array.
+
+public class ArraySubsetChecker {
+    public static boolean isSubset(int[] arr1, int[] arr2) {
+        Set<Integer> set = new HashSet<>();
+
+        
+        for (int num : arr1) {
+            set.add(num);
+        }
+
+       
+        for (int num : arr2) {
+            if (!set.contains(num)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        int[] array1 = {1, 2, 3, 4, 5};
+        int[] array2 = {2, 4, 5};
+        int[] array3 = {6, 7, 8};
+
+        System.out.println("Array 2 is a subset of Array 1: " + isSubset(array1, array2));
+        System.out.println("Array 3 is a subset of Array 1: " + isSubset(array1, array3));
+    }
+}
 
 
 
