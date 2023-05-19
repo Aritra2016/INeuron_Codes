@@ -1,4 +1,8 @@
- Question01 Solution is below
+ Question01 = Write a Java program that uses polymorphism by defining an interface called Shape
+with methods to calculate the area and perimeter of a shape. Then create classes
+that implement the Shape interface for different types of shapes, such as circles and
+triangles.
+
 
 public interface Shape {
 
@@ -70,5 +74,149 @@ public class Main {
 	}
 
 }
+
+
+
+2. Write a Java program to invoke parent class constructor from a child class. Create
+Child class object and parent class constructor must be invoked. Demonstrate by
+writing a program. Also explain key points about Constructor.
+
+
+class Parent {
+    public Parent() {
+        System.out.println("Parent class constructor");
+    }
+}
+
+class Child extends Parent {
+    public Child() {
+        super(); // Invoking the parent class constructor
+        System.out.println("Child class constructor");
+    }
+}
+
+public class ConstructorInvocationDemo {
+    public static void main(String[] args) {
+        Child child = new Child();
+    }
+}
+
+
+3. Write a Java programme that takes an integer from the user and throws an exception
+if it is negative.Demonstrate Exception handling of same program as solution.
+
+import java.util.Scanner;
+
+public class NegativeNumberExceptionDemo {
+    public static void checkNumber(int number) throws NegativeNumberException {
+        if (number < 0) {
+            throw new NegativeNumberException("Negative numbers are not allowed");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int number = scanner.nextInt();
+
+        try {
+            checkNumber(number);
+            System.out.println("Number is non-negative");
+        } catch (NegativeNumberException e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+    }
+}
+
+class NegativeNumberException extends Exception {
+    public NegativeNumberException(String message) {
+        super(message);
+    }
+}
+
+4. Create a Java program that simulates a bank account. The program should allow
+users to deposit and withdraw money, check their balance.
+
+
+import java.util.Scanner;
+
+public class BankAccountSimulation {
+    private double balance;
+
+    public BankAccountSimulation() {
+        this.balance = 0.0;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposit successful. New balance: " + balance);
+        } else {
+            System.out.println("Invalid amount. Deposit failed.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawal successful. New balance: " + balance);
+        } else {
+            System.out.println("Insufficient funds or invalid amount. Withdrawal failed.");
+        }
+    }
+
+    public static void main(String[] args) {
+        BankAccountSimulation account = new BankAccountSimulation();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to Bank Account Simulation!");
+
+        while (true) {
+            System.out.println("\nSelect an option:");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the deposit amount: ");
+                    double depositAmount = scanner.nextDouble();
+                    account.deposit(depositAmount);
+                    break;
+                case 2:
+                    System.out.print("Enter the withdrawal amount: ");
+                    double withdrawalAmount = scanner.nextDouble();
+                    account.withdraw(withdrawalAmount);
+                    break;
+                case 3:
+                    System.out.println("Current balance: " + account.getBalance());
+                    break;
+                case 4:
+                    System.out.println("Thank you for using Bank Account Simulation!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
+
+
+
+5. Demonstrate the difference between abstract class and interface by writing programs
+as well as in keypoints
+
+
+
+
 
 
