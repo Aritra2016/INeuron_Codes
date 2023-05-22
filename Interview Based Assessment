@@ -212,8 +212,390 @@ public class BankAccountSimulation {
 
 
 
+
+
+
 5. Demonstrate the difference between abstract class and interface by writing programs
 as well as in keypoints
+
+Abstract Class:
+-An abstract class is a class that cannot be instantiated and serves as a blueprint for derived classes. 
+-It can contain both abstract and non-abstract methods, 
+-It may have member variables and constructors.
+-Derived classes must implement all abstract methods of the abstract class.
+-It allows code reuse and provides a common interface for derived classes.
+
+Here's an example==>
+
+Ex- 
+
+abstract class Animal {
+    protected String name;
+    
+    public Animal(String name) {
+        this.name = name;
+    }
+    
+    public abstract void sound();
+    
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+}
+
+class Dog extends Animal {
+    public Dog(String name) {
+        super(name);
+    }
+    
+    public void sound() {
+        System.out.println(name + " barks.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog("Buddy");
+        dog.sound();
+        dog.eat();
+    }
+}
+
+
+
+
+Interface==>
+-An interface is a collection of abstract methods that define a contract for classes to implement.
+-It does not contain member variables or constructors.
+-Here's an example:
+
+interface Animal {
+    void sound();
+    void eat();
+}
+
+class Dog implements Animal {
+    private String name;
+    
+    public Dog(String name) {
+        this.name = name;
+    }
+    
+    public void sound() {
+        System.out.println(name + " barks.");
+    }
+    
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog("Buddy");
+        dog.sound();
+        dog.eat();
+    }
+}
+
+
+06. Write a Java program that uses stream api to perform operations on a large data set, such as sorting or filtering the data.
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StreamOperations {
+    public static void main(String[] args) {
+    
+        List<Integer> numbers = new ArrayList<>();
+        for (int i = 1; i <= 1000000; i++) {
+            numbers.add(i);
+        }
+
+       
+        List<Integer> evenNumbers = numbers.stream()
+                .filter(n -> n % 2 == 0)
+                .collect(Collectors.toList());
+
+        System.out.println("Even Numbers:");
+        evenNumbers.forEach(System.out::println);
+
+      
+        List<Integer> sortedNumbers = numbers.stream()
+                .sorted((a, b) -> b.compareTo(a))
+                .collect(Collectors.toList());
+
+        System.out.println("Sorted Numbers (Descending Order):");
+        sortedNumbers.forEach(System.out::println);
+    }
+}
+
+
+07) Create a Java program that implements a binary search algorithm. The program
+should accept user input for the target value and search for it in a sorted array. The
+program should return the index of the target value if found or a message if not
+found.
+
+
+---
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class BinarySearch {
+    public static void main(String[] args) {
+        int[] sortedArray = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the target value to search for: ");
+        int target = scanner.nextInt();
+
+        int index = binarySearch(sortedArray, target);
+
+        if (index != -1) {
+            System.out.println("Target value found at index: " + index);
+        } else {
+            System.out.println("Target value not found in the array.");
+        }
+    }
+
+    public static int binarySearch(int[] array, int target) {
+        int left = 0;
+        int right = array.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (array[mid] == target) {
+                return mid;
+            }
+
+            if (array[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return -1;
+    }
+}
+
+
+8. Write a Java program that creates two threads. The first thread should print even
+numbers between 1 and 10, and the second thread should print odd numbers
+between 1 and 10.
+
+
+public class EvenOddThreads {
+    public static void main(String[] args) {
+        Thread evenThread = new Thread(new EvenNumberPrinter());
+        Thread oddThread = new Thread(new OddNumberPrinter());
+
+        evenThread.start();
+        oddThread.start();
+    }
+
+    static class EvenNumberPrinter implements Runnable {
+        @Override
+        public void run() {
+            for (int i = 2; i <= 10; i += 2) {
+                System.out.println("Even: " + i);
+                try {
+                    Thread.sleep(500); // Delay for better visibility
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    static class OddNumberPrinter implements Runnable {
+        @Override
+        public void run() {
+            for (int i = 1; i <= 10; i += 2) {
+                System.out.println("Odd: " + i);
+                try {
+                    Thread.sleep(500); // Delay for better visibility
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+
+
+
+
+09) Write a Java program that implements a producer-consumer model using
+multithreading. The program should have a producer thread that generates random
+numbers and adds them to a queue, and a consumer thread that reads numbers
+from the queue and calculates their sum. The program should use synchronization to
+ensure that the queue is accessed by only one thread at a time.
+
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
+
+public class ProducerConsumer {
+    private static final int QUEUE_CAPACITY = 10;
+    private static final int NUM_VALUES_TO_PRODUCE = 20;
+    private static final int MAX_RANDOM_VALUE = 100;
+
+    private static Queue<Integer> queue = new LinkedList<>();
+    private static int sum = 0;
+
+    public static void main(String[] args) {
+        Thread producerThread = new Thread(new Producer());
+        Thread consumerThread = new Thread(new Consumer());
+
+        producerThread.start();
+        consumerThread.start();
+    }
+
+    static class Producer implements Runnable {
+        @Override
+        public void run() {
+            Random random = new Random();
+
+            for (int i = 0; i < NUM_VALUES_TO_PRODUCE; i++) {
+                synchronized (queue) {
+                    while (queue.size() >= QUEUE_CAPACITY) {
+                        try {
+                            queue.wait(); // Wait if the queue is full
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    int value = random.nextInt(MAX_RANDOM_VALUE);
+                    queue.add(value);
+                    System.out.println("Produced: " + value);
+                    queue.notify(); // Notify the consumer that an item is added to the queue
+                }
+
+                try {
+                    Thread.sleep(500); // Delay between producing values
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    static class Consumer implements Runnable {
+        @Override
+        public void run() {
+            for (int i = 0; i < NUM_VALUES_TO_PRODUCE; i++) {
+                synchronized (queue) {
+                    while (queue.isEmpty()) {
+                        try {
+                            queue.wait(); // Wait if the queue is empty
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    int value = queue.remove();
+                    sum += value;
+                    System.out.println("Consumed: " + value);
+                    queue.notify(); // Notify the producer that an item is consumed from the queue
+                }
+
+                try {
+                    Thread.sleep(800); // Delay between consuming values
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Sum of consumed values: " + sum);
+        }
+    }
+}
+
+
+
+
+10) Write a Java program that reads a set of integers from the user and stores them in a
+List. The program should then find the second largest and second smallest elements
+in the List.
+
+--
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class SecondLargestSmallest {
+    public static void main(String[] args) {
+        List<Integer> numbers = readNumbers();
+        if (numbers.isEmpty()) {
+            System.out.println("No numbers were entered.");
+            return;
+        }
+
+        int secondLargest = findSecondLargest(numbers);
+        int secondSmallest = findSecondSmallest(numbers);
+
+        System.out.println("Second Largest: " + secondLargest);
+        System.out.println("Second Smallest: " + secondSmallest);
+    }
+
+    public static List<Integer> readNumbers() {
+        List<Integer> numbers = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int count = scanner.nextInt();
+
+        System.out.print("Enter the elements: ");
+        for (int i = 0; i < count; i++) {
+            int num = scanner.nextInt();
+            numbers.add(num);
+        }
+
+        return numbers;
+    }
+
+    public static int findSecondLargest(List<Integer> numbers) {
+        if (numbers.size() < 2) {
+            throw new IllegalArgumentException("List should contain at least 2 elements.");
+        }
+
+        List<Integer> sortedNumbers = new ArrayList<>(numbers);
+        Collections.sort(sortedNumbers, Collections.reverseOrder());
+
+        return sortedNumbers.get(1);
+    }
+
+    public static int findSecondSmallest(List<Integer> numbers) {
+        if (numbers.size() < 2) {
+            throw new IllegalArgumentException("List should contain at least 2 elements.");
+        }
+
+        List<Integer> sortedNumbers = new ArrayList<>(numbers);
+        Collections.sort(sortedNumbers);
+
+        return sortedNumbers.get(1);
+    }
+}
+
+
+
+
+
+
+
+(
+
+
+
+
 
 
 
